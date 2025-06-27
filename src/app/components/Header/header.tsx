@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 const Header = () => {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { signout } = useAuth();
+  const { signout, downloadCSV } = useAuth();
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -36,6 +36,9 @@ const Header = () => {
         )}
         {isProfilePage && (
           <nav className={styles.desktopNav}>
+            <Link href="#" className={styles.signInBtn}>
+              Download CSV
+            </Link>
             <Link href="#" onClick={signout} className={styles.signUpBtn}>
               Sign Out
             </Link>
@@ -70,16 +73,21 @@ const Header = () => {
           </Link>
         </div>)}
 
-        {isProfilePage && (<div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
-          <Link
-            href="#"
-            onClick={() => {signout; setIsMobileMenuOpen(false);}}
-            className={styles.mobileSignUp}
-            // onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Sign Up
-          </Link>
-        </div>)}
+        {isProfilePage && (
+          <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
+            <Link href="#"
+            onClick={() => { downloadCSV(); setIsMobileMenuOpen(false); }}
+             className={styles.signInBtn}>
+              Download CSV
+            </Link>
+            <Link
+              href="#"
+              onClick={() => { signout; setIsMobileMenuOpen(false); }}
+              className={styles.mobileSignUp}
+            >
+              Sign Up
+            </Link>
+          </div>)}
       </div>
     </header>
   );

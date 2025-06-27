@@ -4,10 +4,11 @@ import styles from './createComplaintOverlay.module.scss';
 import { MdOutlineCancel } from 'react-icons/md';
 import { useAuth } from '@/context/AuthContext';
 import toast from 'react-hot-toast';
+import { Complaint } from '@/utils/types';
 
 interface CreateComplaintOverlayProps {
     onClose: () => void;
-    onSubmit: (data: any) => void;
+    onSubmit: (data: Complaint) => void;
 }
 
 const COMPLAINT_TYPES = [

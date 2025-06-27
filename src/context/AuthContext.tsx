@@ -23,6 +23,7 @@ interface AuthContextType {
     getComplaintById: (id: string) => Promise<Complaint | null>;
     createComplaint: (complaintType: string, complain: string, attachment: File) => Promise<Complaint | null>;
     updateComplaintStatus: (complaintId: string, newStatus: string) => Promise<Complaint | null>;
+    downloadCSV: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -57,8 +58,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (data?.signIn?.user && data?.signIn?.token) {
             setUser(data.signIn.user);
-            //console.log('User signed in:', data.signIn.user);
-            //console.log('Token:', data.signIn.token);
             localStorage.setItem('tix_token', data.signIn.token);
             localStorage.setItem('tix_user', JSON.stringify(data.signIn.user));
             toast.success('Signed in successfully');
@@ -115,7 +114,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             router.push('/');
         } catch (e) {
             router.push('/');
-            return;
+            throw e;
         }
     };
 
@@ -168,7 +167,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return result.profile;
         } catch (err) {
             router.push('/');
-            return null;
+            throw err;
         }
     };
 
@@ -325,9 +324,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const downloadCSV = async () => {
+        const token = localStorage.getItem('tix_token');
+        if (!token) {
+            toast.error("You are not authenticated, login to continue");
+            return null;
+        }
+        const query = `
+        mutation {
+  exportClosedComplaints {
+    csvBase64
+  }
+}
+    `;
+
+        try {
+            const res = await graphqlRequest(query, {}, token);
+            function downloadCsv(base64String: string) {
+                const blob = new Blob([atob(base64String)], { type: "text/csv" });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "closed_complaints.csv";
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+            downloadCsv(res?.exportClosedComplaints?.csvBase64);
+            return res?.exportClosedComplaints?.csvBase64;
+        } catch (err) {
+            console.error("Failed to download CSV:", err);
+            throw err;
+        }
+    };
+
 
     return (
-        <AuthContext.Provider value={{ user, signin, signup, signout, getProfile, addComment, getComplaintById, createComplaint, updateComplaintStatus }}>
+        <AuthContext.Provider value={{ user, signin, signup, signout, getProfile, addComment, getComplaintById, createComplaint, updateComplaintStatus, downloadCSV }}>
             {children}
         </AuthContext.Provider>
     );

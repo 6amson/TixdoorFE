@@ -99,7 +99,7 @@ const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }
         try {
             setIsSubmitting(true);
 
-            const [_, newComplaint] = await Promise.all([
+            const [, newComplaint] = await Promise.all([
                 addComment(complaint.id, newComment.trim()),
                 getComplaintById(complaint.id),
             ]);

@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { User, Complaint, } from '@/utils/types';
 
 const Dashboard = () => {
-    const { getProfile, updateComplaintStatus} = useAuth();
+    const { getProfile, updateComplaintStatus } = useAuth();
     const [isNewComplaint, setIsNewComplaint] = useState(false)
     const [user, setUser] = useState<User | null>(null);
     const [selectedComplaint, setSelectedComplaint] = useState<null | Complaint>(null);
@@ -28,7 +28,7 @@ const Dashboard = () => {
                 email: data.user.email,
                 userType: data.user.userType === 'admin' ? 'admin' : 'user',
             };
-            const Complaints: Complaint[] = data.complaints.map((complaint: any) => ({
+            const Complaints: Complaint[] = data.complaints.map((complaint: Complaint) => ({
                 id: complaint.id,
                 complaintType: complaint.complaintType,
                 complain: complaint.complain,
@@ -53,16 +53,11 @@ const Dashboard = () => {
     const handleCommentSubmit = () => {
         setIsNewComplaint(prev => !prev);
     }
-    // 🔵 Callback passed to modal to update complaint status
-    const handleStatusChange = (complaintId: string, newStatus: string) => {
-        //console.log(`Update complaint ${complaintId} to status: ${newStatus}`);
-        if (user?.userType){
-            updateComplaintStatus(complaintId, newStatus).then((data) => {
-                //console.log('Complaint status updated:', data);
-                setIsNewComplaint(prev => !prev);
-            }).catch((error) => {
-                console.error('Error updating complaint status:', error);
-            });
+
+    const handleStatusChange = async (complaintId: string, newStatus: string) => {
+        if (user?.userType) {
+            await updateComplaintStatus(complaintId, newStatus)
+            setIsNewComplaint(prev => !prev);
         }
     };
 
