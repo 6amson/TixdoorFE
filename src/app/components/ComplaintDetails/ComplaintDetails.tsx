@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import styles from './complaintDetails.module.scss';
-import { User, Complaint, Comment, CreateComment } from '@/utils/types';
+import { User, Complaint, Comment} from '@/utils/types';
 import { useAuth } from '@/context/AuthContext';
 import toast from 'react-hot-toast';
 
@@ -21,7 +21,6 @@ const COMPLAINT_STATUSES = [
 ];
 
 const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }: ComplaintDetailsProps) => {
-    const [selectedStatus, setSelectedStatus] = useState(complaint.status);
 
     const [freshComplaint, setFreshComplaint] = useState<Complaint | null>(complaint);
     const { addComment, getComplaintById } = useAuth();
@@ -30,7 +29,6 @@ const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [error, setError] = useState('');
     const [isNewComment, setIsNewComment] = useState(false)
     const commentsPerPage = 5;
 
@@ -85,8 +83,6 @@ const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }
 
     const handleCommentSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
-
         if (!newComment.trim()) {
             toast.error('Comment cannot be empty')
             return;
@@ -124,6 +120,7 @@ const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }
             setCurrentPage(lastPage);
         } catch (e) {
             setIsSubmitting(false);
+            throw e;
         }
 
 

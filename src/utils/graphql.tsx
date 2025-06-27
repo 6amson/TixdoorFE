@@ -1,12 +1,14 @@
 import toast from 'react-hot-toast';
 
+
 export async function graphqlRequest<T = any>(
     query: string,
     variables: Record<string, any> = {},
     token?: string
 ): Promise<T> {
     try {
-        const res = await fetch("http://localhost:3001/graphql", {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+        const res = await fetch(`${backendUrl}/graphql`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

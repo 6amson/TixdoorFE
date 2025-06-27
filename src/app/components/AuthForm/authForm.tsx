@@ -34,16 +34,18 @@ const AuthForm = ({ type }: AuthFormProps) => {
                await signup(formData.email, formData.password, formData.adminCode);
                 setIsLoading(false);
             } catch (error) {
+                throw error;
                 setIsLoading(false);
             }
         }
 
         if (!isSignUp) {
             try {
-                const r = await signin(formData.email, formData.password);
+                await signin(formData.email, formData.password);
 
                 setIsLoading(false);
             } catch (error) {
+                throw error;
                 setIsLoading(false);
             }
         }
