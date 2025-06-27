@@ -1,0 +1,288 @@
+.dashboard {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+.userInfo {
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .userEmail {
+    color: #6b7280;
+    font-size: 1rem;
+    margin: 0;
+
+    span {
+      font-weight: 600;
+      color: #374151;
+    }
+  }
+}
+
+.userRole {
+  .badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+
+    &.user {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    &.admin {
+      background: #fef3c7;
+      color: #d97706;
+    }
+  }
+}
+
+.mainContent {
+  .complaintsSection {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .count {
+      background: #f3f4f6;
+      color: #6b7280;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+  }
+
+  .complaintsList {
+    .emptyState {
+      padding: 4rem 2rem;
+      text-align: center;
+      color: #6b7280;
+      font-size: 1.125rem;
+    }
+  }
+
+  .complaintCard {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #f3f4f6;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    
+    &:hover {
+      background: #f9fafb;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .cardHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+
+      .complaintTitle {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0;
+        flex: 1;
+      }
+
+      .status {
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        white-space: nowrap;
+      }
+    }
+
+    .complaintDesc {
+      color: #6b7280;
+      margin: 0 0 1rem 0;
+      line-height: 1.6;
+    }
+
+    .cardFooter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      .complaintType {
+        background: #e0e7ff;
+        color: #3730a3;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .metadata {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+
+        .userEmail {
+          color: #7c3aed;
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+
+        .date {
+          color: #9ca3af;
+          font-size: 0.875rem;
+        }
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    border-top: 1px solid #e5e7eb;
+
+    .pageBtn {
+      background: white;
+      border: 2px solid #e5e7eb;
+      color: #374151;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        border-color: #2563eb;
+        color: #2563eb;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .pageInfo {
+      color: #6b7280;
+      font-weight: 500;
+    }
+  }
+}
+
+.createBtn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  .plusIcon {
+    // line-height: ;
+    position: relative;
+    bottom: 2px;
+    font-weight: 400;
+  }
+
+  @media (max-width: 768px) {
+    bottom: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
