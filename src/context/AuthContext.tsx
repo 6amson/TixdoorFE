@@ -88,6 +88,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             localStorage.setItem('tix_user', JSON.stringify(data.signUp.user));
             toast.success('Account created successfully');
             router.push('/dashboard');
+        }else{
+            return;
         }
     };
 
@@ -199,7 +201,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return res.addComment.comment;
         } catch (err: any) {
             console.error("❌ Failed to add comment:", err.message);
-            return null;
+            throw err;
         }
     };
 
