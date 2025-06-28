@@ -105,7 +105,7 @@ const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }
             ]);
 
             setComments(newComplaint?.complaintComments || []);
-            setFreshComplaint(newComplaint);
+            // setFreshComplaint(newComplaint);
             setNewComment('');
             setIsSubmitting(false);
             setIsNewComment(true);

@@ -86,7 +86,7 @@ const Header = () => {
               onClick={() => { signout(); setIsMobileMenuOpen(false); }}
               className={styles.mobileSignUp}
             >
-              Sign Up
+              Sign Out
             </Link>
           </div>)}
       </div>
