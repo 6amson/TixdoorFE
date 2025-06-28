@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             localStorage.setItem('tix_user', JSON.stringify(data.signUp.user));
             toast.success('Account created successfully');
             router.push('/dashboard');
-        }else{
+        } else {
             return;
         }
     };
@@ -332,27 +332,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             toast.error("You are not authenticated, login to continue");
             return null;
         }
-        const query = `
-        mutation {
-  exportClosedComplaints {
-    csvBase64
+        const query = `mutation {
+  exportClosedComplaints(input: {}) {
+    csvData
+    filename
+    success
+    message
   }
-}
-    `;
+}`;
 
         try {
             const res = await graphqlRequest(query, {}, token);
-            function downloadCsv(base64String: string) {
-                const blob = new Blob([atob(base64String)], { type: "text/csv" });
+            // console.log("CSV Data received:", res.exportClosedComplaints.csvData);
+            function downloadCsv(csvString: string, filename: string) {
+                const blob = new Blob([csvString], { type: "text/csv" });
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = "closed_complaints.csv";
+                a.download = filename || "resolved_complaints.csv";
+                a.style.display = "none";
+                document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
             }
-            downloadCsv(res?.exportClosedComplaints?.csvBase64);
-            return res?.exportClosedComplaints?.csvBase64;
+            downloadCsv(res?.exportClosedComplaints?.csvData, res?.exportClosedComplaints?.filename);
+            return res?.exportClosedComplaints?.csvData;
         } catch (err) {
             console.error("Failed to download CSV:", err);
             throw err;

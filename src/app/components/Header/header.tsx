@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 const Header = () => {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { signout, downloadCSV } = useAuth();
+  const { signout, downloadCSV, user } = useAuth();
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -36,7 +36,7 @@ const Header = () => {
         )}
         {isProfilePage && (
           <nav className={styles.desktopNav}>
-            <Link href="#" className={styles.signInBtn}>
+            <Link onClick={() => downloadCSV()} href="#" className={styles.signInBtn}>
               Download CSV
             </Link>
             <Link href="#" onClick={signout} className={styles.signUpBtn}>
@@ -75,14 +75,15 @@ const Header = () => {
 
         {isProfilePage && (
           <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
+            {user?.user_type == "admin" && (
             <Link href="#"
             onClick={() => { downloadCSV(); setIsMobileMenuOpen(false); }}
-             className={styles.signInBtn}>
+             className={styles.mobileSignIn}>
               Download CSV
-            </Link>
+            </Link>)}
             <Link
               href="#"
-              onClick={() => { signout; setIsMobileMenuOpen(false); }}
+              onClick={() => { signout(); setIsMobileMenuOpen(false); }}
               className={styles.mobileSignUp}
             >
               Sign Up

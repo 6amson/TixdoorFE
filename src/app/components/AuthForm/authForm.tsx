@@ -34,8 +34,8 @@ const AuthForm = ({ type }: AuthFormProps) => {
                await signup(formData.email, formData.password, formData.adminCode);
                 setIsLoading(false);
             } catch (error) {
+                    setIsLoading(false);        
                 throw error;
-                setIsLoading(false);
             }
         }
 
@@ -45,8 +45,8 @@ const AuthForm = ({ type }: AuthFormProps) => {
 
                 setIsLoading(false);
             } catch (error) {
+                    setIsLoading(false);        
                 throw error;
-                setIsLoading(false);
             }
         }
     };

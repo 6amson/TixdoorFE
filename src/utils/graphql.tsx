@@ -21,8 +21,6 @@ export async function graphqlRequest<T = any>(
 
         if (json.errors) {
             const message = json.errors[0]?.message || "GraphQL Error";
-            //   toast.error(message);
-            //console.log(json.errors);
             throw new Error(message);
         }
         // //console.log("GraphQL response:", json.data);
