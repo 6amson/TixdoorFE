@@ -75,7 +75,7 @@ const Header = () => {
 
         {isProfilePage && (
           <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
-            {user?.user_type == "admin" && (
+            {user?.userType == "admin" && (
             <Link href="#"
             onClick={() => { downloadCSV(); setIsMobileMenuOpen(false); }}
              className={styles.mobileSignIn}>

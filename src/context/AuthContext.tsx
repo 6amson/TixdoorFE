@@ -1,17 +1,17 @@
 // File: context/AuthContext.tsx
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from 'react';
 import { graphqlRequest, graphqlRequestWithFile } from '@/utils/graphql';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { Comment, Complaint } from '@/utils/types';
+import { Comment, Complaint, User } from '@/utils/types';
 
-interface User {
-    id: string;
-    email: string;
-    user_type: string;
-}
+// interface User {
+//     id: string;
+//     email: string;
+//     user_type: string;
+// }
 
 interface AuthContextType {
     user: User | null;
@@ -24,6 +24,7 @@ interface AuthContextType {
     createComplaint: (complaintType: string, complain: string, attachment: File) => Promise<Complaint | null>;
     updateComplaintStatus: (complaintId: string, newStatus: string) => Promise<Complaint | null>;
     downloadCSV: () => Promise<void>;
+    setUser: Dispatch<SetStateAction<User | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -365,7 +366,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 
     return (
-        <AuthContext.Provider value={{ user, signin, signup, signout, getProfile, addComment, getComplaintById, createComplaint, updateComplaintStatus, downloadCSV }}>
+        <AuthContext.Provider value={{ user, signin, signup, signout, getProfile, addComment, getComplaintById, createComplaint, updateComplaintStatus, downloadCSV, setUser }}>
             {children}
         </AuthContext.Provider>
     );

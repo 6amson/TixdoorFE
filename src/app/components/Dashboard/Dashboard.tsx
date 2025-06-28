@@ -7,13 +7,11 @@ import { useAuth } from '@/context/AuthContext';
 import { User, Complaint, } from '@/utils/types';
 
 const Dashboard = () => {
-    const { getProfile, updateComplaintStatus } = useAuth();
+    const { getProfile, updateComplaintStatus, setUser, user } = useAuth();
     const [isNewComplaint, setIsNewComplaint] = useState(false)
-    const [user, setUser] = useState<User | null>(null);
     const [selectedComplaint, setSelectedComplaint] = useState<null | Complaint>(null);
     const [complaints, setComplaints] = useState<Complaint[]>([]);
     const [isCreateOverlayOpen, setIsCreateOverlayOpen] = useState(false);
-    // const [isComplaintsOverlayOpen, setIsComplaintsOverlayOpen] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -39,7 +37,7 @@ const Dashboard = () => {
             }));
             localStorage.setItem('tix_complaints', JSON.stringify(Complaints));
             setComplaints(Complaints);
-            setUser(user);
+            if (user) { setUser(user); }
             setTotalPages(Math.ceil(Complaints.length / complaintsPerPage));
         }).catch((error) => {
             console.error('Error fetching profile:', error);
