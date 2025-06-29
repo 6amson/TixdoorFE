@@ -51,6 +51,7 @@ const CreateComplaintOverlay = ({ onClose, onSubmit }: CreateComplaintOverlayPro
             return;
         }
         try {
+            alert(`Submitting complaint..., ${formData.description}`);
             setIsSubmitting(true);
             const complaint = await createComplaint(
                 formData.type,
