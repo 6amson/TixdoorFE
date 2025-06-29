@@ -7,10 +7,9 @@ import { useAuth } from '@/context/AuthContext';
 import { User, Complaint, } from '@/utils/types';
 
 const Dashboard = () => {
-    const { getProfile, updateComplaintStatus, setUser, user } = useAuth();
+    const { getProfile, updateComplaintStatus, setUser, user, setComplaints, complaint, complaints } = useAuth();
     const [isNewComplaint, setIsNewComplaint] = useState(false)
     const [selectedComplaint, setSelectedComplaint] = useState<null | Complaint>(null);
-    const [complaints, setComplaints] = useState<Complaint[]>([]);
     const [isCreateOverlayOpen, setIsCreateOverlayOpen] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +41,7 @@ const Dashboard = () => {
         }).catch((error) => {
             console.error('Error fetching profile:', error);
         });
-    }, [isNewComplaint]);
+    }, [isNewComplaint || complaint]);
 
     const handleCloseModal = () => {
         setSelectedComplaint(null);

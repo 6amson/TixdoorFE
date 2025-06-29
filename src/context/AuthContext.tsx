@@ -7,11 +7,6 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { Comment, Complaint, User } from '@/utils/types';
 
-// interface User {
-//     id: string;
-//     email: string;
-//     user_type: string;
-// }
 
 interface AuthContextType {
     user: User | null;
@@ -25,12 +20,18 @@ interface AuthContextType {
     updateComplaintStatus: (complaintId: string, newStatus: string) => Promise<Complaint | null>;
     downloadCSV: () => Promise<void>;
     setUser: Dispatch<SetStateAction<User | null>>;
+    complaint: Complaint | null;
+    setComplaint: Dispatch<SetStateAction<Complaint | null>>;
+    complaints: Complaint[] | [];
+    setComplaints: Dispatch<SetStateAction<Complaint[] | []>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [complaint, setComplaint] = useState<Complaint | null>(null);
+    const [complaints, setComplaints] = useState<Complaint[] | []>([])
 
     const router = useRouter();
     useEffect(() => {
@@ -366,7 +367,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 
     return (
-        <AuthContext.Provider value={{ user, signin, signup, signout, getProfile, addComment, getComplaintById, createComplaint, updateComplaintStatus, downloadCSV, setUser }}>
+        <AuthContext.Provider value={{ user, signin, signup, signout, getProfile, addComment, getComplaintById, createComplaint, updateComplaintStatus, downloadCSV, setUser, setComplaint, complaint, setComplaints, complaints }}>
             {children}
         </AuthContext.Provider>
     );

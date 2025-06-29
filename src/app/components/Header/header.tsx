@@ -36,9 +36,9 @@ const Header = () => {
         )}
         {isProfilePage && (
           <nav className={styles.desktopNav}>
-            <Link onClick={() => downloadCSV()} href="#" className={styles.signInBtn}>
+           {user?.userType == "admin" &&(<Link onClick={() => downloadCSV()} href="#" className={styles.signInBtn}>
               Download CSV
-            </Link>
+            </Link>)}
             <Link href="#" onClick={signout} className={styles.signUpBtn}>
               Sign Out
             </Link>

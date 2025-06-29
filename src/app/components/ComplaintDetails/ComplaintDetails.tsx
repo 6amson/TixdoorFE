@@ -22,32 +22,20 @@ const COMPLAINT_STATUSES = [
 
 const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }: ComplaintDetailsProps) => {
 
-    const [freshComplaint, setFreshComplaint] = useState<Complaint | null>(complaint);
-    const { addComment, getComplaintById } = useAuth();
+    // const [freshComplaint, setFreshComplaint] = useState<Complaint | null>(complaint);
+    const { addComment, getComplaintById, setComplaint } = useAuth();
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [isNewComment, setIsNewComment] = useState(false)
+    // const [isNewComment, setIsNewComment] = useState(false)
     const commentsPerPage = 5;
 
     useEffect(() => {
         setComments(complaint?.complaintComments || []);
         setTotalPages(Math.ceil(complaint?.complaintComments.length / commentsPerPage));
-    }, []);
-
-    useEffect(() => {
-        if (freshComplaint?.complaintComments) {
-            setComments(freshComplaint.complaintComments);
-            setTotalPages(Math.ceil(freshComplaint.complaintComments.length / commentsPerPage));
-            //console.log(comments);
-
-        } else {
-            setComments([]);
-            setTotalPages(1);
-        }
-    }, [isNewComment]);
+    }, [complaint]);
 
     const getCurrentPageComments = () => {
         const startIndex = (currentPage - 1) * commentsPerPage;
@@ -104,11 +92,10 @@ const ComplaintDetails = ({ complaint, user, onClose, onStatusChange, onSubmit }
                 getComplaintById(complaint.id),
             ]);
 
-            setComments(newComplaint?.complaintComments || []);
-            // setFreshComplaint(newComplaint);
+            // setComments(newComplaint?.complaintComments || []);
+            setComplaint(newComplaint);
             setNewComment('');
             setIsSubmitting(false);
-            setIsNewComment(true);
             onSubmit();
 
             // Recalculate pagination

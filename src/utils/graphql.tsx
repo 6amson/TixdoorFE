@@ -6,6 +6,7 @@ export async function graphqlRequest<T = any>(
     variables: Record<string, any> = {},
     token?: string
 ): Promise<T> {
+    // alert('here')
     try {
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const res = await fetch(`${backendUrl}/graphql`, {
@@ -21,6 +22,7 @@ export async function graphqlRequest<T = any>(
 
         if (json.errors) {
             const message = json.errors[0]?.message || "GraphQL Error";
+            console.log("errors here:", json.errors);
             throw new Error(message);
         }
         // //console.log("GraphQL response:", json.data);
